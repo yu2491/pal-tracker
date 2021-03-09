@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/time-entries")
 public class TimeEntryController {
     private final TimeEntryRepository timeEntryRepository;
 
@@ -15,28 +14,28 @@ public class TimeEntryController {
         this.timeEntryRepository = timeEntryRepository;
     }
 
-    @PostMapping("/")
+    @PostMapping("/time-entries")
     public ResponseEntity<TimeEntry> create(@RequestBody TimeEntry timeEntryToCreate) {
         TimeEntry response = timeEntryRepository.create(timeEntryToCreate);
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{timeEntryId}")
-    public ResponseEntity<TimeEntry> read(@PathVariable long timeEntryId) {
-        TimeEntry response = timeEntryRepository.find(timeEntryId);
+    @GetMapping("/time-entries/{id}")
+    public ResponseEntity<TimeEntry> read(@PathVariable long id) {
+        TimeEntry response = timeEntryRepository.find(id);
         if(response == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @GetMapping("/")
+    @GetMapping("/time-entries")
     public ResponseEntity<List<TimeEntry>> list() {
         List<TimeEntry> response = timeEntryRepository.list();
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/time-entries/{id}")
     public ResponseEntity<TimeEntry> update(@PathVariable long id, @RequestBody TimeEntry timeEntryToUpdate) {
         TimeEntry response = timeEntryRepository.update(id,timeEntryToUpdate);
         if(response == null) {
@@ -45,7 +44,7 @@ public class TimeEntryController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/time-entries/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         timeEntryRepository.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
